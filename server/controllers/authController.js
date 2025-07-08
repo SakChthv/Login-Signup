@@ -109,7 +109,8 @@ export const logout = async (req, res) => {
 // Send OTP
 export const sendVerifyOtp = async (req, res) => {
   try {
-    const { userId } = req.body;
+    // const { userId } = req.body;
+    const { id: userId } = req.user;
 
     const user = await userModel.findById(userId);
 
@@ -142,7 +143,9 @@ export const sendVerifyOtp = async (req, res) => {
 };
 
 export const verfyEmail = async (req, res) => {
-  const { userId, otp } = req.body;
+  //   const { userId, otp } = req.body;
+  const { id: userId } = req.user;
+  const { otp } = req.body;
 
   if (!userId || !otp) {
     return res.json({ success: false, message: "ບໍ່ພົບອີເມວ!" });
@@ -155,7 +158,10 @@ export const verfyEmail = async (req, res) => {
     }
 
     if (user.verifyOtp === "" || user.verifyOtp !== otp) {
-      return res.json({ success: false, message: "ອີເມວບໍ່ທັນໄດ້ຍືນຍັນ OTP" });
+      return res.json({
+        success: false,
+        message: "OTP ບໍ່ຖືກຕ້ອງ, ກະລຸນາລອງອີກຄັ້ງ",
+      });
     }
     if (user.verifyOtpExpireAt < Date.now()) {
       return res.json({ success: false, message: "OTP ຫມົດອາຍຸ" });
@@ -168,6 +174,87 @@ export const verfyEmail = async (req, res) => {
     await user.save();
 
     return res.json({ success: true, message: "ຍືນຍັນອີເມວສຳເລັດ!" });
+  } catch (err) {
+    return res.json({ success: false, message: err.message });
+  }
+};
+
+export const isAuthenticated = async (req, res) => {
+  try {
+    return res.json({ success: true });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
+};
+
+// send otp password reset
+export const sendResetOtp = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.json({ success: false, message: "ກະລຸນາໃສ່ອີເມວ!" });
+  }
+  try {
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.json({ success: false, message: "ບໍ່ພົບຜູ້ໃຊ້ງານ!" });
+    }
+
+    const otp = String(Math.floor(100000 + Math.random() * 900000));
+
+    user.resetOtp = otp;
+    user.resetOtpExpireAt = Date.now() + 15 * 60 * 1000;
+    await user.save();
+
+    const mailOption = {
+      from: process.env.SENDER_EMAIL,
+      to: user.email,
+      subject: "ປ່ຽນລະຫັດຜ່ານ",
+      text: `ກະລຸນາໃສ່ OTP ${otp} ຂອງທ່ານເພື່ອຍືນຍັນໃນການປ່ຽນລະຫັດຜ່ານ, ລະຫັດນີ້ໄດ້ພຽງຄັ້ງດຽວໃນການຍືນຍັນບັນຊີຂອງທ່ານ`,
+    };
+
+    await transporter.sendMail(mailOption);
+    return res.json({ success: true, message: "OTP ຖືກສົ່ງໄປຍັງອີເມວຂອງທ່ານ" });
+  } catch (err) {
+    return res.json({ success: false, message: err.message });
+  }
+};
+
+// reset user password
+export const resetPassword = async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+
+  if (!email || !otp || !newPassword) {
+    return res.json({
+      success: false,
+      message: "ກະລຸນາໃສ່ອີເມວ, ແລະ ລະຫັດປ່ານໃໝ່!",
+    });
+  }
+
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.json({ success: false, message: "ບໍ່ພົບຜູ້ໃຊ້ງານ!" });
+    }
+
+    if (user.resetOtp === "" || user.resetOtp !== otp) {
+      return res.json({ success: false, message: "OTP ບໍ່ຖືກຕ້ອງ" });
+    }
+    if (user.resetOtpExpireAt < Date.now()) {
+      return res.json({
+        success: false,
+        message: "ຂໍອະໄພ OTP ຂອງທ່ານຫມົດອາຍຸແລ້ວ",
+      });
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    user.resetOtp = "";
+    user.resetOtpExpireAt = 0;
+
+    await user.save();
+
+    return res.json({ success: true, message: "ປ່ຽນລະຫັດຜ່ານສຳເລັດ!" });
   } catch (err) {
     return res.json({ success: false, message: err.message });
   }

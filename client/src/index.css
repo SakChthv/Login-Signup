@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@100..900&family=Noto+Serif+Lao:wght@100..900&display=swap");
+@import "tailwindcss";
 * {
   font-family: "Noto Sans Lao Looped", sans-serif;
 }

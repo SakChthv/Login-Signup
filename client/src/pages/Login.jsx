@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { assets } from "../../assets/assets.js";
 import { useNavigate } from "react-router-dom";
-// import { AppContext } from "../context/AppContext.jsx";
+import { AppContext } from "../context/AppContext.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
-  // const { backendUrl, setIsloggedin } = useContext(AppContext);
+  const { backendUrl, setIsloggedin, getUserData } = useContext(AppContext);
 
   const [state, setState] = useState("Sign Up");
   const [name, setName] = useState("");
@@ -28,6 +28,7 @@ const Login = () => {
 
         if (data.success) {
           setIsloggedin(true);
+          getUserData();
           navigate("/");
         } else {
           toast.error(data.message);
@@ -40,6 +41,7 @@ const Login = () => {
 
         if (data.success) {
           setIsloggedin(true);
+          getUserData();
           navigate("/");
         } else {
           toast.error(data.message);
@@ -50,8 +52,7 @@ const Login = () => {
     }
   };
   return (
-    <div className="flex items-center justify-center min-h-screen px-6 sm:px-0">
-      {/* bg-gradient-to-br from-blue-200 to-purple-400 */}
+    <div className="flex items-center justify-center min-h-screen px-6 sm:px-0 bg-gradient-to-br from-blue-200 to-purple-400">
       <img
         onClick={() => navigate("/")}
         src={assets.logo}
@@ -115,7 +116,8 @@ const Login = () => {
           </p>
 
           <button className="w-full py-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-900 text-white font-medium">
-            {state}
+            {/* {state} */}
+            ສະຫມັກ
           </button>
 
           {state === "Sign Up" ? (

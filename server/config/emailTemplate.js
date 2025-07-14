@@ -3,16 +3,19 @@ export const EMAIL_VERIFY_TEMPLATE = `
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  <title>Email Verify</title>
+  <title>ຍືນຍັນອີເມວ</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@100..900&family=Noto+Serif+Lao:wght@100..900&display=swap" rel="stylesheet">
   <style type="text/css">
-    body {
+  * {
+      font-family: "Noto Sans Lao Looped", sans-serif;
+    }
+  body {
       margin: 0;
       padding: 0;
-      font-family: 'Open Sans', sans-serif;
+      font-family: "Noto Sans Lao Looped", sans-serif;
       background: #E5E5E5;
     }
 
@@ -70,17 +73,17 @@ export const EMAIL_VERIFY_TEMPLATE = `
                     <tbody>
                       <tr>
                         <td style="padding: 0 0 24px; font-size: 18px; line-height: 150%; font-weight: bold;">
-                          Verify your email
+                          ຍືນຍັນອີເມວຂອງທ່ານ
                         </td>
                       </tr>
                       <tr>
                         <td style="padding: 0 0 10px; font-size: 14px; line-height: 150%;">
-                          You are just one step away to verify your account for this email: <span style="color: #4C83EE;">{{email}}</span>.
+                          ກະລຸນາຍືນຍັນອີເມວຂອງທ່ານກ່ອນເຂັ້າໃຊ້ງານລະບົບຂອງພວກເຮົາ: <span style="color: #4C83EE;">{{email}}</span>.
                         </td>
                       </tr>
                       <tr>
                         <td style="padding: 0 0 16px; font-size: 14px; line-height: 150%; font-weight: 700;">
-                          Use below OTP to verify your account.
+                          ໃຊ້ OTP ຂ້າງລຸ່ມນີ້ເພື່ອຍືນຍັນ.
                         </td>
                       </tr>
                       <tr>
@@ -90,7 +93,7 @@ export const EMAIL_VERIFY_TEMPLATE = `
                       </tr>
                       <tr>
                         <td style="padding: 0 0 10px; font-size: 14px; line-height: 150%;">
-                          This OTP is valid for 24 hours.
+                            OTP ນີ້ຈະຫມົດອາຍຸພາຍໃນ 24 ຊົ່ວໂມງຫລັງຈາກນີ້.
                         </td>
                       </tr>
                     </tbody>
@@ -106,7 +109,7 @@ export const EMAIL_VERIFY_TEMPLATE = `
 </body>
 </html>
 
-`
+`;
 
 export const PASSWORD_RESET_TEMPLATE = `
 
@@ -114,16 +117,19 @@ export const PASSWORD_RESET_TEMPLATE = `
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  <title>Password Reset</title>
+  <title>ປ່ຽນລະຫັດຜ່ານ</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@100..900&family=Noto+Serif+Lao:wght@100..900&display=swap" rel="stylesheet">
   <style type="text/css">
+  * {
+      font-family: "Noto Sans Lao Looped", sans-serif;
+    }
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Open Sans', sans-serif;
+      font-family: "Noto Sans Lao Looped", sans-serif;
       background: #E5E5E5;
     }
 
@@ -181,17 +187,17 @@ export const PASSWORD_RESET_TEMPLATE = `
                     <tbody>
                       <tr>
                         <td style="padding: 0 0 24px; font-size: 18px; line-height: 150%; font-weight: bold;">
-                          Forgot your password?
+                          ລືມລະຫັດຜ່ານ?
                         </td>
                       </tr>
                       <tr>
                         <td style="padding: 0 0 10px; font-size: 14px; line-height: 150%;">
-                          We received a password reset request for your account: <span style="color: #4C83EE;">{{email}}</span>.
+                          ພວກເຮົາໄດ້ຮັບຄຳຮ້ອງຂໍເພື່ອປ່ຽນລະຫັດຂອງທ່ານ: <span style="color: #4C83EE;">{{email}}</span>.
                         </td>
                       </tr>
                       <tr>
                         <td style="padding: 0 0 16px; font-size: 14px; line-height: 150%; font-weight: 700;">
-                          Use the OTP below to reset the password.
+                          ໃຊ້ OTP ຂ້າງລຸ່ມນີ້.
                         </td>
                       </tr>
                       <tr>
@@ -201,7 +207,7 @@ export const PASSWORD_RESET_TEMPLATE = `
                       </tr>
                       <tr>
                         <td style="padding: 0 0 10px; font-size: 14px; line-height: 150%;">
-                          The password reset otp is only valid for the next 15 minutes.
+                          OTP ຂອງທ່ານຈະຫມົດອາຍຸພາຍໃນ 15 ນາທີ ຫລັງຈາກນີ້!.
                         </td>
                       </tr>
                     </tbody>
@@ -216,5 +222,4 @@ export const PASSWORD_RESET_TEMPLATE = `
   </table>
 </body>
 </html>
-`
-
+`;

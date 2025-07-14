@@ -2,6 +2,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 import transporter from "../config/nodemailer.js";
+import {
+  EMAIL_VERIFY_TEMPLATE,
+  PASSWORD_RESET_TEMPLATE,
+} from "../config/emailTemplate.js";
 
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -128,7 +132,11 @@ export const sendVerifyOtp = async (req, res) => {
       from: process.env.SENDER_EMAIL,
       to: user.email,
       subject: "ຍືນຍັນລະຫັດດ້ວຍ OTP",
-      text: `ລະຫັດຂອງທ່ານ OTP ແມ່ນ ${otp}, ລະຫັດນີ້ໄດ້ພຽງຄັ້ງດຽວໃນການຍືນຍັນບັນຊີຂອງທ່ານ`,
+      // text: `ລະຫັດຂອງທ່ານ OTP ແມ່ນ ${otp}, ລະຫັດນີ້ໄດ້ພຽງຄັ້ງດຽວໃນການຍືນຍັນບັນຊີຂອງທ່ານ`,
+      html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace(
+        "{{email}}",
+        user.email
+      ),
     };
 
     await transporter.sendMail(mailOption);
@@ -211,7 +219,11 @@ export const sendResetOtp = async (req, res) => {
       from: process.env.SENDER_EMAIL,
       to: user.email,
       subject: "ປ່ຽນລະຫັດຜ່ານ",
-      text: `ກະລຸນາໃສ່ OTP ${otp} ຂອງທ່ານເພື່ອຍືນຍັນໃນການປ່ຽນລະຫັດຜ່ານ, ລະຫັດນີ້ໄດ້ພຽງຄັ້ງດຽວໃນການຍືນຍັນບັນຊີຂອງທ່ານ`,
+      // text: `ກະລຸນາໃສ່ OTP ${otp} ຂອງທ່ານເພື່ອຍືນຍັນໃນການປ່ຽນລະຫັດຜ່ານ, ລະຫັດນີ້ໄດ້ພຽງຄັ້ງດຽວໃນການຍືນຍັນບັນຊີຂອງທ່ານ`,
+      html: PASSWORD_RESET_TEMPLATE.replace("{{otp}}", otp).replace(
+        "{{email}}",
+        user.email
+      ),
     };
 
     await transporter.sendMail(mailOption);
